@@ -1,4 +1,4 @@
-# Projeto para estudo e aplicação do Spring Boot referente a transações PIX
+# Projeto para estudo - API REST em Spring Boot referente a transações PIX
 
 ### **Descrição do desafio:**
 
