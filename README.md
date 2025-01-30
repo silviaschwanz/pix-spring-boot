@@ -34,9 +34,9 @@ ________________________________________________________________________________
 
 ## Configuração do Ambiente:
 
-Necessário: Java 17 e docker
-O maven pode ser utilizado o wrapper existente no próprio projeto, para isso usar `./mvnw`
-Projeto com docker compose contendo dois serviços de banco de dados, um da aplicação e outro para testes
+Necessário: Java 17 e docker.  
+Pode ser utilizado o maven wrapper existente no próprio projeto, para isso usar `./mvnw` . 
+Projeto com docker compose contendo dois serviços de banco de dados, um da aplicação e outro para testes.  
 
 ### Arquivo .env docker:
 É necessário copiar o arquivo .exemplo.env com o nome .env, nesse novo arquivo preencha os dados conforme necessário.
