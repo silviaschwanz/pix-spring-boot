@@ -1,0 +1,7 @@
+CREATE TABLE chave_pix (
+    id BIGSERIAL NOT NULL PRIMARY KEY,
+    uuid UUID NOT NULL UNIQUE,
+    chave VARCHAR(254) NOT NULL UNIQUE,
+    tipo VARCHAR(9) NOT NULL,
+    CONSTRAINT chk_tipo_pix CHECK (tipo IN ('CPF', 'CNPJ', 'EMAIL', 'CELULAR', 'ALEATORIA'))
+);

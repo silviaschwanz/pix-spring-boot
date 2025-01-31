@@ -12,22 +12,30 @@ public class ChavePixFactoryImpl implements ChavePixFactory{
         if (tipo == null || tipo.name().isBlank()) {
             throw new IllegalArgumentException("O tipo da chave PIX não pode ser nulo ou vazio.");
         }
-        if(tipo.equals(TipoChavePix.EMAIL)){
-            return new EmailPix(chave, tipo);
+        return switch (tipo) {
+            case EMAIL -> EmailPix.criar(chave, tipo);
+            case CELULAR -> CelularPix.criar(chave, tipo);
+            case CPF -> CpfPix.criar(chave, tipo);
+            case CNPJ -> CnpjPix.criar(chave, tipo);
+            case ALEATORIA -> ChaveAleatoriaPix.criar(chave, tipo);
+        };
+    }
+
+    @Override
+    public ChavePix restaurarChavePix(String chave, TipoChavePix tipo) {
+        if (chave == null) {
+            throw new IllegalArgumentException("Valor da chave PIX não pode ser nulo para restauração.");
         }
-        if(tipo.equals(TipoChavePix.CELULAR)){
-            return new CelularPix(chave, tipo);
+        if (tipo == null) {
+            throw new IllegalArgumentException("Tipo de chave não pode ser nulo para restauração.");
         }
-        if(tipo.equals(TipoChavePix.CPF)){
-            return new CpfPix(chave, tipo);
-        }
-        if(tipo.equals(TipoChavePix.CNPJ)) {
-            return new CnpjPix(chave, tipo);
-        }
-        if(tipo.equals(TipoChavePix.ALEATORIA)) {
-            return new ChaveAleatoriaPix(chave, tipo);
-        }
-        throw new IllegalArgumentException("Chave PIX inválida.");
+        return switch (tipo) {
+            case EMAIL -> EmailPix.restaurar(chave, tipo);
+            case CELULAR -> CelularPix.restaurar(chave, tipo);
+            case CPF -> CpfPix.restaurar(chave, tipo);
+            case CNPJ -> CnpjPix.restaurar(chave, tipo);
+            case ALEATORIA -> ChaveAleatoriaPix.restaurar(chave, tipo);
+        };
     }
 
 }

@@ -5,46 +5,44 @@ import com.pix.domain.chave.ChavePix;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
-public record CnpjPix(String chave, TipoChavePix tipo) implements ChavePix {
+public class CnpjPix extends ChavePix {
 
     private static final Pattern CNPJ_PATTERN = Pattern.compile("\\d{14}");
     private static final String PREFIXO_ERROR_MESSAGE = "Chave Pix do tipo CNPJ inválida";
 
-    public CnpjPix(String chave, TipoChavePix tipo) {
-        this.chave = limparFormatacao(chave);
-        validarFormato();
-        validarTodosDigitosIguais();
-        validarDigitosVerificadoresInvalidos();
-        this.tipo = tipo;
+    private CnpjPix(String chave, TipoChavePix tipo) {
+        super(chave, tipo);
     }
 
-    @Override
-    public String getChave() {
-        return chave;
+    public static ChavePix criar(String chave, TipoChavePix tipo) {
+        String chaveLimpa = limparFormatacao(chave);
+        validarFormato(chaveLimpa);
+        validarTodosDigitosIguais(chaveLimpa);
+        validarDigitosVerificadores(chaveLimpa);
+        return new CnpjPix(chaveLimpa, tipo);
     }
 
-    @Override
-    public TipoChavePix getTipo() {
-        return tipo;
+    public static ChavePix restaurar(String chave, TipoChavePix tipo) {
+        return new CnpjPix(chave, tipo);
     }
 
-    private String limparFormatacao(String chave) {
+    private static String limparFormatacao(String chave) {
         return chave.replaceAll("\\D", "");
     }
 
-    private void validarFormato() {
+    private static void validarFormato(String chave) {
         if (!CNPJ_PATTERN.matcher(chave).matches()) {
             throw new IllegalArgumentException(PREFIXO_ERROR_MESSAGE + " - formato incorreto.");
         }
     }
 
-    private void validarTodosDigitosIguais() {
+    private static void validarTodosDigitosIguais(String chave) {
         if (chave.chars().allMatch(ch -> ch == chave.charAt(0))) {
             throw new IllegalArgumentException(PREFIXO_ERROR_MESSAGE + " - todos os digítos são iguais.");
         }
     }
 
-    private void validarDigitosVerificadoresInvalidos() {
+    private static void validarDigitosVerificadores(String chave) {
         String cnpjBase = chave.substring(0, 12);
         int digito1Informado = Character.getNumericValue(chave.charAt(12));
         int digito2Informado = Character.getNumericValue(chave.charAt(13));
@@ -63,7 +61,7 @@ public record CnpjPix(String chave, TipoChavePix tipo) implements ChavePix {
         }
     }
 
-    private int calcularDigito(String cnpjBase, int[] pesos) {
+    private static int calcularDigito(String cnpjBase, int[] pesos) {
         int soma = IntStream.range(0, cnpjBase.length())
                 .map(i -> Character.getNumericValue(cnpjBase.charAt(i)) * pesos[i])
                 .sum();
