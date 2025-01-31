@@ -8,10 +8,10 @@ public record ValorTransacao(BigDecimal valor) {
 
     private static final BigDecimal VALOR_MINIMO = new BigDecimal("0.01");
 
-    public ValorTransacao(BigDecimal valor) {
+    public ValorTransacao {
         Objects.requireNonNull(valor, "Valor da transação é obrigatório.");
         validar(valor);
-        this.valor = arredondar(valor);
+        valor = arredondar(valor);
     }
 
     private void validar(BigDecimal valor) {
@@ -26,7 +26,7 @@ public record ValorTransacao(BigDecimal valor) {
 
     @Override
     public String toString() {
-        return "R$ " + valor;
+        return "R$" + valor;
     }
 
 }

@@ -43,7 +43,7 @@ class ValorTransacaoTest {
     @Test
     void deveExibirValorFormatado() {
         ValorTransacao valorTransacao = new ValorTransacao(new BigDecimal("1234.5"));
-        assertEquals("R$ 1234.50", valorTransacao.toString());
+        assertEquals("R$1234.50", valorTransacao.toString());
     }
 
 }

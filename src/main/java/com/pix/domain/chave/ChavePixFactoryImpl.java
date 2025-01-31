@@ -5,46 +5,29 @@ import com.pix.domain.chave.tipo.*;
 public class ChavePixFactoryImpl implements ChavePixFactory{
 
     @Override
-    public ChavePix criarChavePix(String valorChave) {
-        if (valorChave == null || valorChave.isBlank()) {
+    public ChavePix criarChavePix(String chave, TipoChavePix tipo) {
+        if (chave == null || chave.isBlank()) {
             throw new IllegalArgumentException("Valor da chave PIX não pode ser nulo ou vazio.");
         }
-        if (padraoEmail(valorChave)) {
-            return new EmailPix(valorChave);
+        if (tipo == null || tipo.name().isBlank()) {
+            throw new IllegalArgumentException("O tipo da chave PIX não pode ser nulo ou vazio.");
         }
-        if (padraoCPF(valorChave)) {
-            return new CpfPix(valorChave);
+        if(tipo.equals(TipoChavePix.EMAIL)){
+            return new EmailPix(chave, tipo);
         }
-        if (padraoCNPJ(valorChave)) {
-            return new CnpjPix(valorChave);
+        if(tipo.equals(TipoChavePix.CELULAR)){
+            return new CelularPix(chave, tipo);
         }
-        if (padraoTelefone(valorChave)) {
-            return new TelefonePix(valorChave);
+        if(tipo.equals(TipoChavePix.CPF)){
+            return new CpfPix(chave, tipo);
         }
-        if (padraoUuidChaveAleatoria(valorChave)) {
-            return new ChaveAleatoriaPix(valorChave);
+        if(tipo.equals(TipoChavePix.CNPJ)) {
+            return new CnpjPix(chave, tipo);
+        }
+        if(tipo.equals(TipoChavePix.ALEATORIA)) {
+            return new ChaveAleatoriaPix(chave, tipo);
         }
         throw new IllegalArgumentException("Chave PIX inválida.");
-    }
-
-    private boolean padraoEmail(String valorChave) {
-        return valorChave.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
-    }
-
-    private boolean padraoCPF(String valorChave) {
-        return  valorChave.matches("\\d{11}");
-    }
-
-    private boolean padraoCNPJ(String valorChave) {
-        return  valorChave.matches("\\d{14}");
-    }
-
-    private boolean padraoTelefone(String valorChave) {
-        return  valorChave.matches("^\\+\\d{1,15}$");
-    }
-
-    private boolean padraoUuidChaveAleatoria(String valorChave) {
-        return  valorChave.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$");
     }
 
 }

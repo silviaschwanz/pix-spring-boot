@@ -3,6 +3,7 @@ package com.pix.domain.transacao;
 import com.pix.domain.chave.ChavePix;
 import com.pix.domain.chave.ChavePixFactory;
 import com.pix.domain.chave.ChavePixFactoryImpl;
+import com.pix.domain.chave.tipo.TipoChavePix;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,23 +24,18 @@ public class Transacao {
     private static final List<String> CONTAS_SUSPEITAS = List.of("12345678900", "98765432100"); // Exemplo de chaves CPFs bloqueadas
 
 
-    private Transacao(String chavePixOrigem, BigDecimal valor, String chavePixDestino) {
+    private Transacao(ChavePix chavePixOrigem, BigDecimal valor, ChavePix chavePixDestino) {
+        this.chavePixOrigem = chavePixOrigem;
+        this.chavePixDestino = chavePixDestino;
+        this.valorTransacao = new ValorTransacao(valor);
         compararChavesOrigemDestino();
         verificarSaldo();
         verificarLimiteDiario();
         verificarFraude();
-        this.chavePixFactory = new ChavePixFactoryImpl();
-        this.chavePixOrigem = interpretarChave(chavePixOrigem);
-        this.chavePixDestino = interpretarChave(chavePixDestino);
-        this.valorTransacao = new ValorTransacao(valor);
     }
 
-    public static Transacao registrar(String chavePixOrigem, BigDecimal valor, String chavePixDestino) {
+    public static Transacao registrar(ChavePix chavePixOrigem, BigDecimal valor, ChavePix chavePixDestino) {
         return new Transacao(chavePixOrigem, valor, chavePixDestino);
-    }
-
-    private ChavePix interpretarChave(String valorChave) {
-        return chavePixFactory.criarChavePix(valorChave);
     }
 
     private void compararChavesOrigemDestino() {
@@ -49,8 +45,8 @@ public class Transacao {
     }
 
     private void verificarSaldo() {
-        BigDecimal saldo = BigDecimal.valueOf(5000.00);
-        if(valorTransacao.valor().compareTo(saldo) < 0 ) {
+        BigDecimal saldo = new BigDecimal("5000.00");
+        if(valorTransacao.valor().compareTo(saldo) > 0 ) {
             throw new IllegalArgumentException("O valor da transação é superior ao valor do saldo.");
         }
     }
@@ -66,7 +62,7 @@ public class Transacao {
         if (valorTransacao.valor().compareTo(LIMITE_SUSPEITO) > 0) {
             throw new IllegalArgumentException("Alerta de fraude: Transação com valor muito alto.");
         }
-        if (CONTAS_SUSPEITAS.contains(chavePixDestino.valorChave())) {
+        if (CONTAS_SUSPEITAS.contains(chavePixDestino.getChave())) {
             throw new IllegalArgumentException("Alerta de fraude: Destinatário suspeito.");
         }
         //É possível implementar a verificação de transações recentes e/ou por minuto
@@ -82,11 +78,19 @@ public class Transacao {
     }
 
     public String getChavePixOrigem() {
-        return chavePixOrigem.valorChave();
+        return chavePixOrigem.getChave();
+    }
+
+    public TipoChavePix getTipoChavePixOrigem() {
+        return chavePixOrigem.getTipo();
     }
 
     public String getChavePixDestino() {
-        return chavePixDestino.valorChave();
+        return chavePixDestino.getChave();
+    }
+
+    public TipoChavePix getTipoChavePixDestino() {
+        return chavePixDestino.getTipo();
     }
 
     public LocalDateTime getDataHora() {

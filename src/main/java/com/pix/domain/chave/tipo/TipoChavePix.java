@@ -4,6 +4,6 @@ public enum TipoChavePix {
     EMAIL,
     CPF,
     CNPJ,
-    TELEFONE,
+    CELULAR,
     ALEATORIA
 }
