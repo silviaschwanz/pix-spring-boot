@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.stream.Stream;
@@ -22,16 +23,16 @@ class CnpjPixTestIT {
     private final ChavePixFactory chavePixFactory = new ChavePixFactoryImpl();
 
     @Autowired
-    private CnpjTestProperties cnpjTestProperties;
+    Environment environment;
 
     private Stream<String> fornecerCnpjsValidos() {
         return Stream.of(
-                cnpjTestProperties.getValid1(),
-                cnpjTestProperties.getValid2(),
-                cnpjTestProperties.getValid3(),
-                cnpjTestProperties.getValid4(),
-                cnpjTestProperties.getValid5(),
-                cnpjTestProperties.getValid6()
+                environment.getProperty("cnpj.test.valid1"),
+                environment.getProperty("cnpj.test.valid2"),
+                environment.getProperty("cnpj.test.valid3"),
+                environment.getProperty("cnpj.test.valid4"),
+                environment.getProperty("cnpj.test.valid5"),
+                environment.getProperty("cnpj.test.valid6")
         );
     }
 

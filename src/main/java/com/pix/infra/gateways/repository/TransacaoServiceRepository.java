@@ -11,7 +11,6 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
@@ -43,7 +42,7 @@ public class TransacaoServiceRepository implements TransacaoRepository {
     @Override
     public Transacao buscarPorId(UUID uuid) throws EntityNotFoundException {
         TransacaoEntity transacaoEntity =  transacaoJpaRepository.findByUuid(uuid)
-                .orElseThrow(() -> new IllegalArgumentException("Transação não encontrada: " + uuid));
+                .orElseThrow(() -> new EntityNotFoundException("Transação não encontrada: " + uuid));
         return transacaoMapper.toDomain(transacaoEntity);
     }
 

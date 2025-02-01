@@ -14,7 +14,7 @@ public class ChavePixMapper {
 
     public ChavePix toDomain(ChavePixEntity chavePixEntity) {
         TipoChavePix tipoChavePix = TipoChavePix.valueOf(chavePixEntity.getTipo());
-        return chavePixFactory.restaurarChavePix(chavePixEntity.getChave(), tipoChavePix);
+        return chavePixFactory.restaurarChavePix(chavePixEntity.getUuid(), chavePixEntity.getChave(), tipoChavePix);
     }
 
     public ChavePixEntity toEntity(ChavePix chavePix) {

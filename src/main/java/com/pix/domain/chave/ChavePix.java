@@ -6,14 +6,20 @@ import java.util.UUID;
 
 public abstract class ChavePix {
 
-    private final String chave;
-    private final TipoChavePix tipo;
-    private final UUID uuid;
+    protected final String chave;
+    protected final TipoChavePix tipo;
+    protected final UUID uuid;
 
     protected ChavePix(String chave, TipoChavePix tipo) {
         this.chave = chave;
         this.tipo = tipo;
         this.uuid = UUID.randomUUID();
+    }
+
+    protected ChavePix(UUID uuid, String chave, TipoChavePix tipo) {
+        this.chave = chave;
+        this.tipo = tipo;
+        this.uuid = uuid;
     }
 
     public UUID getUuid() {

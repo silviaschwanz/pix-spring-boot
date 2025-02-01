@@ -1,14 +1,12 @@
 package com.pix.domain.transacao;
 
 import com.pix.domain.chave.ChavePix;
-import com.pix.domain.chave.ChavePixFactory;
 import com.pix.domain.chave.tipo.TipoChavePix;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import java.util.UUID;
 
 public class Transacao {

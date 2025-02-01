@@ -2,6 +2,7 @@ package com.pix.domain.chave.tipo;
 
 import com.pix.domain.chave.ChavePix;
 
+import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
@@ -12,18 +13,22 @@ public class CpfPix extends ChavePix {
 
     private CpfPix(String chave, TipoChavePix tipo) {
         super(chave, tipo);
+        validarFormato();
+        validarTodosDigitosIguais();
+        validarDigitosVerificadores();
+    }
+
+    private CpfPix(UUID uuid, String chave, TipoChavePix tipo) {
+        super(uuid ,chave, tipo);
     }
 
     public static ChavePix criar(String chave, TipoChavePix tipo) {
         String chaveLimpa = limparFormatacao(chave);
-        validarFormato(chaveLimpa);
-        validarTodosDigitosIguais(chaveLimpa);
-        validarDigitosVerificadores(chaveLimpa);
         return new CpfPix(chaveLimpa, tipo);
     }
 
-    public static ChavePix restaurar(String chave, TipoChavePix tipo) {
-        return new CpfPix(chave, tipo);
+    public static ChavePix restaurar(UUID uuid, String chave, TipoChavePix tipo) {
+        return new CpfPix(uuid ,chave, tipo);
     }
 
 
@@ -31,19 +36,19 @@ public class CpfPix extends ChavePix {
         return chave.replaceAll("\\D", "");
     }
 
-    private static void validarFormato(String chave) {
+    private void validarFormato() {
         if (!CPF_PATTERN.matcher(chave).matches()) {
             throw new IllegalArgumentException(PREFIXO_ERROR_MESSAGE + " - formato incorreto.");
         }
     }
 
-    private static void validarTodosDigitosIguais(String chave) {
+    private void validarTodosDigitosIguais() {
         if (chave.chars().distinct().count() == 1) {
             throw new IllegalArgumentException(PREFIXO_ERROR_MESSAGE + " - todos os digítos são iguais.");
         }
     }
 
-    private static void validarDigitosVerificadores(String chave) {
+    private void validarDigitosVerificadores() {
         String cpfBase = chave.substring(0, 9);
         String digitosVerificadoresFornecidos = cpfBase.substring(9);
         StringBuilder digitosCalculados = new StringBuilder();
@@ -54,7 +59,7 @@ public class CpfPix extends ChavePix {
         }
     }
 
-    private static int calcularDigito(String cpf, int pesoInicial) {
+    private int calcularDigito(String cpf, int pesoInicial) {
         int soma = IntStream.range(0, cpf.length())
                 .map(i -> Character.getNumericValue(cpf.charAt(i)) * (pesoInicial - i))
                 .sum();

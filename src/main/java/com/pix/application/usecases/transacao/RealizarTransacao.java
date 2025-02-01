@@ -1,12 +1,12 @@
-package com.pix.application.usecases;
+package com.pix.application.usecases.transacao;
 
 import com.pix.application.gateways.TransacaoRepository;
 import com.pix.domain.chave.ChavePix;
-import com.pix.domain.chave.ChavePixFactory;
-import com.pix.domain.chave.ChavePixFactoryImpl;
 import com.pix.domain.transacao.Transacao;
-import com.pix.infra.controller.dto.RealizarTransacaoRequest;
-import com.pix.infra.controller.dto.RealizarTransacaoResponse;
+import com.pix.domain.transacao.ValorTransacao;
+import com.pix.infra.controller.transacao.RealizarTransacaoRequest;
+import com.pix.infra.controller.transacao.RealizarTransacaoResponse;
+import com.pix.infra.gateways.repository.ChavePixServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +16,12 @@ public class RealizarTransacao {
     @Autowired
     TransacaoRepository transacaoRepository;
 
-    private final ChavePixFactory chavePixFactory = new ChavePixFactoryImpl();
+    @Autowired
+    ChavePixServiceRepository chavePixServiceRepository;
 
     public RealizarTransacaoResponse executar(RealizarTransacaoRequest transacaoRequest) {
-        ChavePix chavePixOrigem = chavePixFactory.criarChavePix(
-                transacaoRequest.chavePixOrigem().chave(), transacaoRequest.chavePixOrigem().tipoChave()
-        );
-        ChavePix chavePixDestino = chavePixFactory.criarChavePix(
-                transacaoRequest.chavePixDestino().chave(), transacaoRequest.chavePixDestino().tipoChave()
-        );
+        ChavePix chavePixOrigem = chavePixServiceRepository.buscarPorChave(transacaoRequest.chavePixOrigem().chave());
+        ChavePix chavePixDestino = chavePixServiceRepository.buscarPorChave(transacaoRequest.chavePixDestino().chave());
         Transacao transacaoSolicitada = Transacao.registrar(
                 chavePixOrigem,
                 transacaoRequest.valor(),
@@ -33,9 +30,9 @@ public class RealizarTransacao {
         Transacao transacaoRealizada = transacaoRepository.registrar(transacaoSolicitada);
         return new RealizarTransacaoResponse(
                 transacaoRealizada.getUuid(),
-                transacaoRealizada.getValorTransacao(),
+                transacaoRealizada.getValorTransacao().toString(),
                 transacaoRealizada.getChavePixOrigem(),
                 transacaoRealizada.getChavePixDestino()
-                );
+        );
     }
 }

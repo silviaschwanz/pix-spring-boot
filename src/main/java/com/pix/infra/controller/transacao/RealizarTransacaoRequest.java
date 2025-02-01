@@ -1,4 +1,4 @@
-package com.pix.infra.controller.dto;
+package com.pix.infra.controller.transacao;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;

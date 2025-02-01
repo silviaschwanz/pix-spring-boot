@@ -30,6 +30,11 @@ public class TransacaoMapper {
             ChavePixEntity chavePixEntityOrigem,
             ChavePixEntity chavePixEntityDestino
     ) {
-        return new TransacaoEntity(chavePixEntityOrigem, transacao.getValorTransacao(), chavePixEntityDestino);
+        return new TransacaoEntity(
+                transacao.getUuid(),
+                chavePixEntityOrigem,
+                transacao.getValorTransacao(),
+                chavePixEntityDestino
+        );
     }
 }

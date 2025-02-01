@@ -33,11 +33,11 @@ public class TransacaoEntity {
     private LocalDateTime dataHora;
 
 
-    public TransacaoEntity(ChavePixEntity chavePixOrigem, BigDecimal valor, ChavePixEntity chavePixDestino) {
+    public TransacaoEntity(UUID uuid, ChavePixEntity chavePixOrigem, BigDecimal valor, ChavePixEntity chavePixDestino) {
         this.chavePixOrigem = chavePixOrigem;
         this.valor = valor;
         this.chavePixDestino = chavePixDestino;
-        this.uuid = UUID.randomUUID();
+        this.uuid = uuid;
         this.dataHora = LocalDateTime.now();
     }
 

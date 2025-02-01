@@ -2,6 +2,8 @@ package com.pix.domain.chave;
 
 import com.pix.domain.chave.tipo.*;
 
+import java.util.UUID;
+
 public class ChavePixFactoryImpl implements ChavePixFactory{
 
     @Override
@@ -22,7 +24,7 @@ public class ChavePixFactoryImpl implements ChavePixFactory{
     }
 
     @Override
-    public ChavePix restaurarChavePix(String chave, TipoChavePix tipo) {
+    public ChavePix restaurarChavePix(UUID uuid, String chave, TipoChavePix tipo) {
         if (chave == null) {
             throw new IllegalArgumentException("Valor da chave PIX não pode ser nulo para restauração.");
         }
@@ -30,11 +32,11 @@ public class ChavePixFactoryImpl implements ChavePixFactory{
             throw new IllegalArgumentException("Tipo de chave não pode ser nulo para restauração.");
         }
         return switch (tipo) {
-            case EMAIL -> EmailPix.restaurar(chave, tipo);
-            case CELULAR -> CelularPix.restaurar(chave, tipo);
-            case CPF -> CpfPix.restaurar(chave, tipo);
-            case CNPJ -> CnpjPix.restaurar(chave, tipo);
-            case ALEATORIA -> ChaveAleatoriaPix.restaurar(chave, tipo);
+            case EMAIL -> EmailPix.restaurar(uuid ,chave, tipo);
+            case CELULAR -> CelularPix.restaurar(uuid, chave, tipo);
+            case CPF -> CpfPix.restaurar(uuid, chave, tipo);
+            case CNPJ -> CnpjPix.restaurar(uuid ,chave, tipo);
+            case ALEATORIA -> ChaveAleatoriaPix.restaurar(uuid, chave, tipo);
         };
     }
 

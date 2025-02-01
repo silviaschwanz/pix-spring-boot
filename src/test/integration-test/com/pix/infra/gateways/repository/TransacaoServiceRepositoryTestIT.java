@@ -4,6 +4,9 @@ import com.pix.domain.chave.ChavePix;
 import com.pix.domain.chave.ChavePixFactoryImpl;
 import com.pix.domain.chave.tipo.TipoChavePix;
 import com.pix.domain.transacao.Transacao;
+import io.restassured.RestAssured;
+import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +20,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 @ActiveProfiles("test")
 class TransacaoServiceRepositoryTestIT {
+
+    @Autowired
+    Flyway flyway;
+
+    @BeforeEach
+    public void setUp() {
+        flyway.clean();
+        flyway.migrate();
+    }
 
     @Autowired
     TransacaoServiceRepository transacaoServiceRepository;

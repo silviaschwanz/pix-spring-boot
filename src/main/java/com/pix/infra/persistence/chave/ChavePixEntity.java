@@ -21,6 +21,9 @@ public class ChavePixEntity {
     @Column(nullable = false)
     private String tipo;
 
+    public ChavePixEntity() {
+    }
+
     public ChavePixEntity(UUID uuid, String chave, String tipo) {
         this.uuid = uuid;
         this.chave = chave;

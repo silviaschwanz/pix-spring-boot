@@ -4,6 +4,7 @@ import com.pix.domain.chave.ChavePix;
 import com.pix.infra.gateways.repository.mapper.ChavePixMapper;
 import com.pix.infra.persistence.chave.ChavePixEntity;
 import com.pix.infra.persistence.chave.ChavePixJpaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class ChavePixServiceRepository {
 
     public ChavePix buscarPorChave(String chave) {
         ChavePixEntity chavePixEntity =  chavePixJpaRepository.findByChave(chave)
-                .orElseThrow(() -> new IllegalArgumentException("Chave Pix não encontrada: " + chave));
+                .orElseThrow(() -> new EntityNotFoundException("Chave Pix não encontrada: " + chave));
         return chavePixMapper.toDomain(chavePixEntity);
     }
 
