@@ -20,7 +20,7 @@ A API deve atender aos seguintes requisitos:
         - A chave PIX deve ter formato válido (CPF, e-mail, telefone ou chave aleatória).
         - Não permitir transações para a mesma chave de origem e destinatário.
 2. **Listar Transações**
-    - Endpoint para listar todas as transações registradas.
+    - Endpoint para listar todas as transações registradas para uma chave pix origem.
 3. **Buscar Transação por ID**
     - Endpoint para buscar os detalhes de uma transação específica.
 
