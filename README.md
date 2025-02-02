@@ -58,5 +58,6 @@ Para executá-los via linha de comando:
 `./mvnw verify`
 
 ## Modelagem
+https://miro.com/app/board/uXjVLlYfY-Q=/?moveToWidget=3458764615540821694&cot=14
 ![diagrama_ER_transacoes_pix ](https://github.com/user-attachments/assets/c6728ae6-f197-4634-a1f7-b9e99603a950)
 
