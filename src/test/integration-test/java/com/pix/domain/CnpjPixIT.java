@@ -1,8 +1,9 @@
-package com.pix.domain.chave.tipo;
+package com.pix.domain;
 
 import com.pix.domain.chave.ChavePix;
 import com.pix.domain.chave.ChavePixFactory;
 import com.pix.domain.chave.ChavePixFactoryImpl;
+import com.pix.domain.chave.tipo.TipoChavePix;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -18,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
 @ActiveProfiles("test")
-class CnpjPixTestIT {
+class CnpjPixIT {
 
     private final ChavePixFactory chavePixFactory = new ChavePixFactoryImpl();
 

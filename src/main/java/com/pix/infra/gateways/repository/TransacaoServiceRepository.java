@@ -10,13 +10,13 @@ import com.pix.infra.persistence.transacao.TransacaoJpaRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 import java.util.UUID;
 
-@Repository
+@Service
 public class TransacaoServiceRepository implements TransacaoRepository {
 
     @Autowired

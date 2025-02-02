@@ -73,7 +73,6 @@ class RealizarTransacaoTest {
                 new DadosChavePix("gil@gmail.com", TipoChavePix.EMAIL),
                 new BigDecimal("4000.00")
         );
-
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
             realizarTransacao.executar(realizarTransacaoRequest);;
         });
@@ -94,7 +93,6 @@ class RealizarTransacaoTest {
                 new DadosChavePix("gil@gmail.com", TipoChavePix.EMAIL),
                 new BigDecimal("4000.00")
         );
-
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
             realizarTransacao.executar(realizarTransacaoRequest);;
         });

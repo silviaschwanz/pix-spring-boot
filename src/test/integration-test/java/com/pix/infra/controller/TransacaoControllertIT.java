@@ -1,8 +1,10 @@
-package com.pix.infra.controller.transacao;
+package com.pix.infra.controller;
 
 import com.pix.domain.chave.ChavePix;
 import com.pix.domain.chave.ChavePixFactoryImpl;
 import com.pix.domain.chave.tipo.TipoChavePix;
+import com.pix.infra.controller.transacao.DadosChavePix;
+import com.pix.infra.controller.transacao.RealizarTransacaoRequest;
 import com.pix.infra.gateways.repository.ChavePixServiceRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -23,7 +25,7 @@ import static org.hamcrest.CoreMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-class TransacaoControllerTestIT {
+class TransacaoControllertIT {
 
     @LocalServerPort
     int port;
