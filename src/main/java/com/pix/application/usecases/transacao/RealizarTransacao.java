@@ -9,6 +9,7 @@ import com.pix.infra.controller.transacao.RealizarTransacaoResponse;
 import com.pix.infra.gateways.repository.ChavePixServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RealizarTransacao {
