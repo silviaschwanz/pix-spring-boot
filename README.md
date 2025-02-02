@@ -56,3 +56,7 @@ Foi feita configuração no maven para que os testes de integração possam ser 
 Todos os testes que contiverem anotações SpringBoot deverão ser considerados testes de integração e deverão ser colocados no diretório integration-test, seguindo a mesma organização de pacotes do projeto java.
 Para executá-los via linha de comando:
 `./mvnw verify`
+
+## Modelagem
+![diagrama_ER_transacoes_pix ](https://github.com/user-attachments/assets/c6728ae6-f197-4634-a1f7-b9e99603a950)
+
