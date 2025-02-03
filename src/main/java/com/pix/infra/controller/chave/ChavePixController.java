@@ -24,6 +24,6 @@ public class ChavePixController {
         CadastrarChavePixResponse response = cadastrarChavePix.executar(cadastrarChavePixRequest);
         var uri = uriBuilder.path("chaves/{uuid}").buildAndExpand(response.uuid()).toUri();
         return ResponseEntity.created(uri).body(response);
-
     }
+
 }

@@ -1,5 +1,6 @@
 package com.pix.application.usecases.transacao;
 
+import com.pix.application.gateways.ChavePixRepository;
 import com.pix.application.gateways.TransacaoRepository;
 import com.pix.domain.chave.ChavePix;
 import com.pix.domain.transacao.Transacao;
@@ -18,11 +19,11 @@ public class RealizarTransacao {
     TransacaoRepository transacaoRepository;
 
     @Autowired
-    ChavePixServiceRepository chavePixServiceRepository;
+    ChavePixRepository chavePixRepository;
 
     public RealizarTransacaoResponse executar(RealizarTransacaoRequest transacaoRequest) {
-        ChavePix chavePixOrigem = chavePixServiceRepository.buscarPorChave(transacaoRequest.chavePixOrigem().chave());
-        ChavePix chavePixDestino = chavePixServiceRepository.buscarPorChave(transacaoRequest.chavePixDestino().chave());
+        ChavePix chavePixOrigem = chavePixRepository.buscarPorChave(transacaoRequest.chavePixOrigem().chave());
+        ChavePix chavePixDestino = chavePixRepository.buscarPorChave(transacaoRequest.chavePixDestino().chave());
         Transacao transacaoSolicitada = Transacao.registrar(
                 chavePixOrigem,
                 transacaoRequest.valor(),

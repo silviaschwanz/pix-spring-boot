@@ -1,5 +1,6 @@
 package com.pix.infra.gateways.repository;
 
+import com.pix.application.gateways.ChavePixRepository;
 import com.pix.domain.chave.ChavePix;
 import com.pix.infra.gateways.repository.mapper.ChavePixMapper;
 import com.pix.infra.persistence.chave.ChavePixEntity;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class ChavePixServiceRepository {
+public class ChavePixServiceRepository implements ChavePixRepository {
 
     @Autowired
     ChavePixJpaRepository chavePixJpaRepository;

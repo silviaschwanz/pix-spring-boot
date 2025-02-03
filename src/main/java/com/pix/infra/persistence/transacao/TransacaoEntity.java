@@ -32,6 +32,8 @@ public class TransacaoEntity {
     @Column(nullable = false)
     private LocalDateTime dataHora;
 
+    public TransacaoEntity() {
+    }
 
     public TransacaoEntity(UUID uuid, ChavePixEntity chavePixOrigem, BigDecimal valor, ChavePixEntity chavePixDestino) {
         this.chavePixOrigem = chavePixOrigem;

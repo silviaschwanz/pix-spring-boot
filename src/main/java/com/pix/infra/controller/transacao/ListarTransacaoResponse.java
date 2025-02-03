@@ -1,4 +1,8 @@
 package com.pix.infra.controller.transacao;
 
-public record ListarTransacaoResponse() {
+import java.util.Set;
+
+public record ListarTransacaoResponse(
+        Set<DadosTransacao> transacoes
+) {
 }
