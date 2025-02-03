@@ -4,9 +4,9 @@ import com.pix.domain.chave.ChavePix;
 import com.pix.domain.chave.ChavePixFactoryImpl;
 import com.pix.domain.chave.tipo.TipoChavePix;
 import com.pix.domain.transacao.Transacao;
-import com.pix.infra.controller.transacao.DadosChavePix;
-import com.pix.infra.controller.transacao.RealizarTransacaoRequest;
-import com.pix.infra.controller.transacao.RealizarTransacaoResponse;
+import com.pix.infra.controller.chave.ChavePixRequest;
+import com.pix.infra.controller.transacao.TransacaoRequest;
+import com.pix.infra.controller.transacao.TransacaoResponse;
 import com.pix.infra.gateways.repository.ChavePixServiceRepository;
 import com.pix.infra.gateways.repository.TransacaoServiceRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,8 +19,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class RealizarTransacaoTest {
@@ -50,16 +51,16 @@ class RealizarTransacaoTest {
         );
         when(transacaoServiceRepository.registrar(any(Transacao.class))).thenReturn(transacao);
 
-        RealizarTransacaoRequest realizarTransacaoRequest = new RealizarTransacaoRequest(
-                new DadosChavePix("frt@gmail.com", TipoChavePix.EMAIL),
-                new DadosChavePix("gil@gmail.com", TipoChavePix.EMAIL),
+        TransacaoRequest realizarTransacaoRequest = new TransacaoRequest(
+                new ChavePixRequest("frt@gmail.com", TipoChavePix.EMAIL),
+                new ChavePixRequest("gil@gmail.com", TipoChavePix.EMAIL),
                 new BigDecimal("4000.00")
         );
-        RealizarTransacaoResponse realizarTransacaoResponse = realizarTransacao.executar(realizarTransacaoRequest);
-        assertEquals("4000.00", realizarTransacaoResponse.valorTransacao());
-        assertEquals(transacao.getUuid(), realizarTransacaoResponse.uuid());
-        assertEquals(transacao.getChavePixOrigem(), realizarTransacaoResponse.chavePixOrigem());
-        assertEquals(transacao.getChavePixDestino(), realizarTransacaoResponse.chavePixDestino());
+        TransacaoResponse transacaoResponse = realizarTransacao.executar(realizarTransacaoRequest);
+        assertEquals("4000.00", transacaoResponse.valor());
+        assertEquals(transacao.getUuid(), transacaoResponse.uuid());
+        assertEquals(transacao.getChavePixOrigem(), transacaoResponse.chavePixOrigem());
+        assertEquals(transacao.getChavePixDestino(), transacaoResponse.chavePixDestino());
     }
 
     @Test
@@ -68,9 +69,9 @@ class RealizarTransacaoTest {
         String messageError = "Chave Pix não encontrada: frt@gmail.com";
         doThrow(new EntityNotFoundException("Chave Pix não encontrada: frt@gmail.com"))
                 .when(chavePixServiceRepository).buscarPorChave("frt@gmail.com");
-        RealizarTransacaoRequest realizarTransacaoRequest = new RealizarTransacaoRequest(
-                new DadosChavePix("frt@gmail.com", TipoChavePix.EMAIL),
-                new DadosChavePix("gil@gmail.com", TipoChavePix.EMAIL),
+        TransacaoRequest realizarTransacaoRequest = new TransacaoRequest(
+                new ChavePixRequest("frt@gmail.com", TipoChavePix.EMAIL),
+                new ChavePixRequest("gil@gmail.com", TipoChavePix.EMAIL),
                 new BigDecimal("4000.00")
         );
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
@@ -88,9 +89,9 @@ class RealizarTransacaoTest {
         String messageError = "Chave Pix não encontrada: gil@gmail.com";
         doThrow(new EntityNotFoundException(messageError))
                 .when(chavePixServiceRepository).buscarPorChave("gil@gmail.com");
-        RealizarTransacaoRequest realizarTransacaoRequest = new RealizarTransacaoRequest(
-                new DadosChavePix("frt@gmail.com", TipoChavePix.EMAIL),
-                new DadosChavePix("gil@gmail.com", TipoChavePix.EMAIL),
+        TransacaoRequest realizarTransacaoRequest = new TransacaoRequest(
+                new ChavePixRequest("frt@gmail.com", TipoChavePix.EMAIL),
+                new ChavePixRequest("gil@gmail.com", TipoChavePix.EMAIL),
                 new BigDecimal("4000.00")
         );
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {

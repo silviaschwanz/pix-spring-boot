@@ -3,8 +3,8 @@ package com.pix.application.usecases.chave;
 import com.pix.domain.chave.ChavePix;
 import com.pix.domain.chave.ChavePixFactoryImpl;
 import com.pix.domain.chave.tipo.TipoChavePix;
-import com.pix.infra.controller.chave.CadastrarChavePixRequest;
-import com.pix.infra.controller.chave.CadastrarChavePixResponse;
+import com.pix.infra.controller.chave.ChavePixRequest;
+import com.pix.infra.controller.chave.ChavePixResponse;
 import com.pix.infra.gateways.repository.ChavePixServiceRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,8 +33,8 @@ class CadastrarChavePixTest {
         ChavePixFactoryImpl chavePixFactory = new ChavePixFactoryImpl();
         ChavePix chavePix = chavePixFactory.criarChavePix("frt@gmail.com", TipoChavePix.EMAIL);
         when(chavePixServiceRepository.salvar(any(ChavePix.class))).thenReturn(chavePix);
-        CadastrarChavePixRequest request = new CadastrarChavePixRequest("frt@gmail.com", TipoChavePix.EMAIL);
-        CadastrarChavePixResponse response = cadastrarChavePix.executar(request);
+        ChavePixRequest request = new ChavePixRequest("frt@gmail.com", TipoChavePix.EMAIL);
+        ChavePixResponse response = cadastrarChavePix.executar(request);
         assertEquals(chavePix.getUuid(), response.uuid());
         assertEquals(chavePix.getChave(), response.chave());
         assertEquals(chavePix.getTipo().name(), response.tipo());
@@ -44,7 +44,7 @@ class CadastrarChavePixTest {
     @DisplayName("Deve lançar exceção IllegalArgumentException ao tentar cadastrar uma chave pix do tipo Email com " +
             "formato de email inválido")
     void naoDeveCadastrarChavePixInvalida() {
-        CadastrarChavePixRequest request = new CadastrarChavePixRequest("soul123@gmail.com?", TipoChavePix.EMAIL);
+        ChavePixRequest request = new ChavePixRequest("soul123@gmail.com?", TipoChavePix.EMAIL);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             cadastrarChavePix.executar(request);
         });

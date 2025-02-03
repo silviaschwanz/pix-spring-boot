@@ -3,8 +3,8 @@ package com.pix.infra.controller;
 import com.pix.domain.chave.ChavePix;
 import com.pix.domain.chave.ChavePixFactoryImpl;
 import com.pix.domain.chave.tipo.TipoChavePix;
-import com.pix.infra.controller.transacao.DadosChavePix;
-import com.pix.infra.controller.transacao.RealizarTransacaoRequest;
+import com.pix.infra.controller.chave.ChavePixRequest;
+import com.pix.infra.controller.transacao.TransacaoRequest;
 import com.pix.infra.gateways.repository.ChavePixServiceRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -21,7 +21,8 @@ import org.springframework.test.context.ActiveProfiles;
 import java.math.BigDecimal;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -52,9 +53,9 @@ class TransacaoControllertIT {
         chavePixServiceRepository.salvar(chavePixOrigem);
         chavePixServiceRepository.salvar(chavePixDestino);
 
-        RealizarTransacaoRequest request = new RealizarTransacaoRequest(
-                new DadosChavePix("frt@gmail.com", TipoChavePix.EMAIL),
-                new DadosChavePix("gil@gmail.com", TipoChavePix.EMAIL),
+        TransacaoRequest request = new TransacaoRequest(
+                new ChavePixRequest("frt@gmail.com", TipoChavePix.EMAIL),
+                new ChavePixRequest("gil@gmail.com", TipoChavePix.EMAIL),
                 new BigDecimal("4000.00")
         );
         Response response = given()
@@ -66,7 +67,7 @@ class TransacaoControllertIT {
                 .statusCode(201)
                 .contentType(ContentType.JSON)
                 .body("uuid", notNullValue())
-                .body("valorTransacao", is("4000.00"))
+                .body("valor", is("4000.00"))
                 .body("chavePixOrigem", is("frt@gmail.com"))
                 .body("chavePixDestino", is("gil@gmail.com"))
                 .extract().response();
@@ -81,9 +82,9 @@ class TransacaoControllertIT {
         ChavePix chavePixDestino = chavePixFactory.criarChavePix("gil@gmail.com", TipoChavePix.EMAIL);
         chavePixServiceRepository.salvar(chavePixDestino);
 
-        RealizarTransacaoRequest request = new RealizarTransacaoRequest(
-                new DadosChavePix("frt@gmail.com", TipoChavePix.EMAIL),
-                new DadosChavePix("gil@gmail.com", TipoChavePix.EMAIL),
+        TransacaoRequest request = new TransacaoRequest(
+                new ChavePixRequest("frt@gmail.com", TipoChavePix.EMAIL),
+                new ChavePixRequest("gil@gmail.com", TipoChavePix.EMAIL),
                 new BigDecimal("4000.00")
         );
         Response response = given()

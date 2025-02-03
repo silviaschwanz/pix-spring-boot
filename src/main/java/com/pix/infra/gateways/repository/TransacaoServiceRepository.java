@@ -10,11 +10,15 @@ import com.pix.infra.persistence.transacao.TransacaoJpaRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TransacaoServiceRepository implements TransacaoRepository {
@@ -47,8 +51,14 @@ public class TransacaoServiceRepository implements TransacaoRepository {
     }
 
     @Override
-    public Set<Transacao> buscarTodas() throws EntityNotFoundException {
-        return Set.of();
+    public Set<Transacao> buscarPorChaveOrigem(String chaveOrigem, Pageable paginacao) throws EntityNotFoundException {
+        Page<TransacaoEntity> transacoesPage = transacaoJpaRepository.findByChaveOrigem(chaveOrigem, paginacao);
+        if (transacoesPage == null) {
+            return Collections.emptySet();
+        }
+        return transacoesPage.stream()
+                .map(transacao -> transacaoMapper.toDomain(transacao))
+                .collect(Collectors.toSet());
     }
 
     private ChavePixEntity buscarChavePix(String chave) {
