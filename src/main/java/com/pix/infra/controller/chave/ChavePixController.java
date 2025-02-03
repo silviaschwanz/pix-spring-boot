@@ -18,10 +18,10 @@ public class ChavePixController {
     CadastrarChavePix cadastrarChavePix;
 
     @PostMapping
-    public ResponseEntity<CadastrarChavePixResponse> cadastrar(
-            @RequestBody @Valid CadastrarChavePixRequest cadastrarChavePixRequest, UriComponentsBuilder uriBuilder
+    public ResponseEntity<ChavePixResponse> cadastrar(
+            @RequestBody @Valid ChavePixRequest cadastrarChavePixRequest, UriComponentsBuilder uriBuilder
     ) {
-        CadastrarChavePixResponse response = cadastrarChavePix.executar(cadastrarChavePixRequest);
+        ChavePixResponse response = cadastrarChavePix.executar(cadastrarChavePixRequest);
         var uri = uriBuilder.path("chaves/{uuid}").buildAndExpand(response.uuid()).toUri();
         return ResponseEntity.created(uri).body(response);
     }

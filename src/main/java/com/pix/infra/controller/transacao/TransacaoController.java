@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("transacoes")
 public class TransacaoController {
@@ -21,20 +23,20 @@ public class TransacaoController {
     ListarTransacoesEnviadasChaveOrigem listarTransacoesChaveOrigem;
 
     @PostMapping
-    public ResponseEntity<RealizarTransacaoResponse> transferir(
-            @RequestBody @Valid RealizarTransacaoRequest request, UriComponentsBuilder uriBuilder
+    public ResponseEntity<TransacaoResponse> transferir(
+            @RequestBody @Valid TransacaoRequest request, UriComponentsBuilder uriBuilder
     ) {
-        RealizarTransacaoResponse response =   realizarTransacao.executar(request);
+        TransacaoResponse response =   realizarTransacao.executar(request);
         var uri = uriBuilder.path("transacoes/{uuid}").buildAndExpand(response.uuid()).toUri();
         return ResponseEntity.created(uri).body(response);
     }
 
     @GetMapping("/{chave}")
-    public ResponseEntity<ListarTransacaoResponse> listarTransacoesEnviadasDaChaveOrigem(
+    public ResponseEntity<Set<TransacaoResponse>> listarTransacoesEnviadasDaChaveOrigem(
             @PathVariable String chave,
             @PageableDefault(size = 10, sort = {"chavePixOrigem"}) Pageable paginacao
     ) {
-        ListarTransacaoResponse response = listarTransacoesChaveOrigem.executar(chave, paginacao);
+        Set<TransacaoResponse> response = listarTransacoesChaveOrigem.executar(chave, paginacao);
         return ResponseEntity.ok().body(response);
     }
 

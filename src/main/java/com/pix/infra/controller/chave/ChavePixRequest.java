@@ -4,7 +4,7 @@ import com.pix.domain.chave.tipo.TipoChavePix;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record CadastrarChavePixRequest(
+public record ChavePixRequest(
         @NotBlank(message = "A chave pix não foi informada.")
         String chave,
 

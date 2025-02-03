@@ -2,9 +2,7 @@ package com.pix.application.usecases.transacao;
 
 import com.pix.application.gateways.TransacaoRepository;
 import com.pix.domain.transacao.Transacao;
-import com.pix.infra.controller.transacao.DadosChavePix;
-import com.pix.infra.controller.transacao.DadosTransacao;
-import com.pix.infra.controller.transacao.ListarTransacaoResponse;
+import com.pix.infra.controller.transacao.TransacaoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,24 +16,17 @@ public class ListarTransacoesEnviadasChaveOrigem {
     @Autowired
     TransacaoRepository transacaoRepository;
 
-    public ListarTransacaoResponse executar(String chave, Pageable paginacao) {
+    public Set<TransacaoResponse> executar(String chave, Pageable paginacao) {
         Set<Transacao> transacoesDaChave = transacaoRepository.buscarChaveOrigem(chave, paginacao);
-        Set<DadosTransacao> transacaos = transacoesDaChave
+        return transacoesDaChave
                 .stream()
-                .map((Transacao t) -> new DadosTransacao(
+                .map((Transacao t) -> new TransacaoResponse(
                         t.getUuid(),
-                        new DadosChavePix(
-                                t.getChavePixOrigem(),
-                                t.getTipoChavePixOrigem()
-                        ),
-                        new DadosChavePix(
-                                t.getChavePixDestino(),
-                                t.getTipoChavePixDestino()
-                        ),
-                        t.getValorTransacao(),
+                        t.getChavePixOrigem(),
+                        t.getChavePixDestino(),
+                        t.getValorTransacao().toString(),
                         t.getDataHora()
                 ))
                 .collect(Collectors.toSet());
-        return new ListarTransacaoResponse(transacaos);
     }
 }
