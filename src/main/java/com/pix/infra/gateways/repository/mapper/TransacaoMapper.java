@@ -1,7 +1,9 @@
 package com.pix.infra.gateways.repository.mapper;
 
 import com.pix.domain.chave.ChavePix;
+import com.pix.domain.transacao.TipoLigacao;
 import com.pix.domain.transacao.Transacao;
+import com.pix.infra.persistence.TransacaoChavePixEntity;
 import com.pix.infra.persistence.chave.ChavePixEntity;
 import com.pix.infra.persistence.transacao.TransacaoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,16 @@ public class TransacaoMapper {
     ChavePixMapper chavePixMapper;
 
     public Transacao toDomain(TransacaoEntity transacaoEntity) {
-        ChavePix chavePixOrigem = chavePixMapper.toDomain(transacaoEntity.getChavePixOrigem());
-        ChavePix chavePixDestino = chavePixMapper.toDomain(transacaoEntity.getChavePixDestino());
+        ChavePix chavePixOrigem = null;
+        ChavePix chavePixDestino = null;
+        for (TransacaoChavePixEntity transacaoChavePix : transacaoEntity.getChaves()) {
+            if(TipoLigacao.ORIGEM.name().equals(transacaoChavePix.getTipoLigacao())) {
+                chavePixOrigem = chavePixMapper.toDomain(transacaoChavePix.getChavePix());
+            }
+            if(TipoLigacao.DESTINO.name().equals(transacaoChavePix.getTipoLigacao())) {
+                chavePixDestino = chavePixMapper.toDomain(transacaoChavePix.getChavePix());
+            }
+        }
         return Transacao.restaurar(
                 transacaoEntity.getUuid(),
                 chavePixOrigem,
@@ -30,11 +40,13 @@ public class TransacaoMapper {
             ChavePixEntity chavePixEntityOrigem,
             ChavePixEntity chavePixEntityDestino
     ) {
-        return new TransacaoEntity(
+        TransacaoEntity transacaoEntity = new TransacaoEntity(
                 transacao.getUuid(),
-                chavePixEntityOrigem,
                 transacao.getValorTransacao(),
-                chavePixEntityDestino
+                transacao.getDataHora()
         );
+        transacaoEntity.adicionarChave(chavePixEntityOrigem, TipoLigacao.ORIGEM.name());
+        transacaoEntity.adicionarChave(chavePixEntityDestino, TipoLigacao.DESTINO.name());
+        return transacaoEntity;
     }
 }

@@ -13,7 +13,7 @@ public class ChavePixMapper {
     private final ChavePixFactory chavePixFactory = new ChavePixFactoryImpl();
 
     public ChavePix toDomain(ChavePixEntity chavePixEntity) {
-        TipoChavePix tipoChavePix = TipoChavePix.valueOf(chavePixEntity.getTipo());
+        TipoChavePix tipoChavePix = TipoChavePix.valueOf(chavePixEntity.getTipoPix());
         return chavePixFactory.restaurarChavePix(chavePixEntity.getUuid(), chavePixEntity.getChave(), tipoChavePix);
     }
 

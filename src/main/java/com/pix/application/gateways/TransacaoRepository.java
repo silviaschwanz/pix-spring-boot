@@ -14,6 +14,6 @@ public interface TransacaoRepository {
 
     Transacao registrar(Transacao transacao) throws EntityExistsException;
     Transacao buscarPorId(UUID id) throws EntityNotFoundException;
-    Set<Transacao> buscarChaveOrigem(String chaveOrigem, Pageable paginacao) throws EntityNotFoundException;
+    Set<Transacao> buscarPorChaveOrigem(String chaveOrigem, Pageable paginacao) throws EntityNotFoundException;
 
 }

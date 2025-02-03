@@ -17,7 +17,7 @@ public class ListarTransacoesEnviadasChaveOrigem {
     TransacaoRepository transacaoRepository;
 
     public Set<TransacaoResponse> executar(String chave, Pageable paginacao) {
-        Set<Transacao> transacoesDaChave = transacaoRepository.buscarChaveOrigem(chave, paginacao);
+        Set<Transacao> transacoesDaChave = transacaoRepository.buscarPorChaveOrigem(chave, paginacao);
         return transacoesDaChave
                 .stream()
                 .map((Transacao t) -> new TransacaoResponse(

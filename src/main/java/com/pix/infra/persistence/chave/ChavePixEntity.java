@@ -1,7 +1,10 @@
 package com.pix.infra.persistence.chave;
 
+import com.pix.infra.persistence.TransacaoChavePixEntity;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -19,7 +22,10 @@ public class ChavePixEntity {
     private String chave;
 
     @Column(nullable = false)
-    private String tipo;
+    private String tipoPix;
+
+    @OneToMany(mappedBy = "chavePix", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TransacaoChavePixEntity> transacoes = new HashSet<>();
 
     public ChavePixEntity() {
     }
@@ -27,7 +33,7 @@ public class ChavePixEntity {
     public ChavePixEntity(UUID uuid, String chave, String tipo) {
         this.uuid = uuid;
         this.chave = chave;
-        this.tipo = tipo;
+        this.tipoPix = tipo;
     }
 
     public Long getId() {
@@ -42,8 +48,12 @@ public class ChavePixEntity {
         return chave;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getTipoPix() {
+        return tipoPix;
+    }
+
+    public Set<TransacaoChavePixEntity> getTransacoes() {
+        return transacoes;
     }
 
 }
