@@ -1,7 +1,7 @@
 package com.pix.infra.persistence.transacao;
 
-import com.pix.infra.persistence.TransacaoChavePixEntity;
 import com.pix.infra.persistence.chave.ChavePixEntity;
+import com.pix.infra.persistence.chave.TransacaoChavePixEntity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -28,7 +28,7 @@ public class TransacaoEntity {
     private LocalDateTime dataHora;
 
     @OneToMany(mappedBy = "transacao", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TransacaoChavePixEntity> chaves = new HashSet<>();
+    private Set<TransacaoChavePixEntity> transacaoChaves = new HashSet<>();
 
     public TransacaoEntity() {
     }
@@ -47,12 +47,12 @@ public class TransacaoEntity {
         TransacaoChavePixEntity transacaoChavePix = new TransacaoChavePixEntity(
                 this, chavePix, tipoLigacao
         );
-        chaves.add(transacaoChavePix);
+        transacaoChaves.add(transacaoChavePix);
         chavePix.getTransacoes().add(transacaoChavePix);
     }
 
     public void removerChave(ChavePixEntity chavePix) {
-        chaves.removeIf(tcp -> tcp.getChavePix().equals(chavePix));
+        transacaoChaves.removeIf(tcp -> tcp.getChavePix().equals(chavePix));
         chavePix.getTransacoes().removeIf(tcp -> tcp.getTransacao().equals(this));
     }
 
@@ -72,7 +72,7 @@ public class TransacaoEntity {
         return dataHora;
     }
 
-    public Set<TransacaoChavePixEntity> getChaves() {
-        return chaves;
+    public Set<TransacaoChavePixEntity> getTransacaoChaves() {
+        return transacaoChaves;
     }
 }

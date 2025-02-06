@@ -5,6 +5,7 @@ import com.pix.domain.transacao.Transacao;
 import com.pix.infra.gateways.repository.mapper.TransacaoMapper;
 import com.pix.infra.persistence.chave.ChavePixEntity;
 import com.pix.infra.persistence.chave.ChavePixJpaRepository;
+import com.pix.infra.persistence.transacao.TransacaoChavePixOrigemProjection;
 import com.pix.infra.persistence.transacao.TransacaoEntity;
 import com.pix.infra.persistence.transacao.TransacaoJpaRepository;
 import jakarta.persistence.EntityExistsException;
@@ -52,12 +53,12 @@ public class TransacaoServiceRepository implements TransacaoRepository {
 
     @Override
     public Set<Transacao> buscarPorChaveOrigem(String chaveOrigem, Pageable paginacao) throws EntityNotFoundException {
-        Page<TransacaoEntity> transacoesPage = transacaoJpaRepository.findByChaveOrigem(chaveOrigem, paginacao);
-        if (transacoesPage == null) {
-            return Collections.emptySet();
+        Page<TransacaoChavePixOrigemProjection> transacoesPage = transacaoJpaRepository.findByChaveOrigem(chaveOrigem, paginacao);
+        if (transacoesPage.isEmpty()) {
+            throw new EntityNotFoundException("Nenhuma transação encontrada para a chave de origem: " + chaveOrigem);
         }
         return transacoesPage.stream()
-                .map(transacao -> transacaoMapper.toDomain(transacao))
+                .map(transacaoMapper::toDomain)
                 .collect(Collectors.toSet());
     }
 

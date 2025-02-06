@@ -31,6 +31,11 @@ class TransacaoTest {
         assertEquals(TipoChavePix.EMAIL, transacao.getTipoChavePixDestino());
     }
 
+    @Test
+    void deveLancarExcecaoChavesIguais() {
+
+    }
+
 
 
     @Test

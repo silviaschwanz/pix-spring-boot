@@ -27,6 +27,10 @@ public class Transacao {
         this.chavePixDestino = chavePixDestino;
         this.valorTransacao = new ValorTransacao(valor);
         this.dataHora = LocalDateTime.now();
+        compararChavesOrigemDestino(chavePixOrigem, chavePixDestino);
+        verificarSaldo(valor);
+        verificarLimiteDiario(valor);
+        verificarFraude(valor, chavePixDestino);
     }
 
     private Transacao(
@@ -44,10 +48,6 @@ public class Transacao {
     }
 
     public static Transacao registrar(ChavePix chavePixOrigem, BigDecimal valor, ChavePix chavePixDestino) {
-        compararChavesOrigemDestino(chavePixOrigem, chavePixDestino);
-        verificarSaldo(valor);
-        verificarLimiteDiario(valor);
-        verificarFraude(valor, chavePixDestino);
         return new Transacao(chavePixOrigem, valor, chavePixDestino);
     }
 
@@ -62,27 +62,27 @@ public class Transacao {
         return new Transacao(uuid, chavePixOrigem, valorTransacao, chavePixDestino, dataHora);
     }
 
-    private static void compararChavesOrigemDestino(ChavePix chavePixOrigem, ChavePix chavePixDestino) {
+    private void compararChavesOrigemDestino(ChavePix chavePixOrigem, ChavePix chavePixDestino) {
         if(Objects.equals(chavePixOrigem, chavePixDestino)) {
             throw new IllegalArgumentException("As chaves origem e destino não podem ser iguais.");
         }
     }
 
-    private static void verificarSaldo(BigDecimal valor) {
+    private void verificarSaldo(BigDecimal valor) {
         BigDecimal saldo = new BigDecimal("5000.00");
         if(valor.compareTo(saldo) > 0 ) {
             throw new IllegalArgumentException("O valor da transação é superior ao valor do saldo.");
         }
     }
 
-    private static void verificarLimiteDiario(BigDecimal valor) {
-        BigDecimal limiteDiario = BigDecimal.valueOf(1000.00);
-        if(valor.compareTo(limiteDiario) < 0 ) {
+    private void verificarLimiteDiario(BigDecimal valor) {
+        BigDecimal limiteDiario = new BigDecimal("5000.00");
+        if(valor.compareTo(limiteDiario) > 0 ) {
             throw new IllegalArgumentException("O valor da transação é superior ao valor do limite diário permitido.");
         }
     }
 
-    private static void verificarFraude(BigDecimal valor, ChavePix chavePixDestino) {
+    private void verificarFraude(BigDecimal valor, ChavePix chavePixDestino) {
         if (valor.compareTo(LIMITE_SUSPEITO) > 0) {
             throw new IllegalArgumentException("Alerta de fraude: Transação com valor muito alto.");
         }

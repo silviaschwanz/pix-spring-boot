@@ -1,4 +1,4 @@
-package com.pix.infra.persistence;
+package com.pix.infra.persistence.chave;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,5 @@
 package com.pix.infra.persistence.transacao;
 
-import com.pix.infra.persistence.chave.ChavePixEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -17,24 +16,16 @@ public interface TransacaoJpaRepository extends JpaRepository<TransacaoEntity, L
 
     Optional<TransacaoEntity> findByUuid(UUID uuid);
 
-    @Query(
-            "SELECT t FROM TransacaoEntity t " +
-                    "JOIN t.chaves origem ON origem.tipoLigacao = 'ORIGEM' " +
-                    "JOIN t.chaves destino ON destino.tipoLigacao = 'DESTINO' " +
-                    "WHERE origem.chavePix.chave = :chaveOrigem " +
-                    "AND destino.chavePix.chave = :chaveDestino"
-    )
-    Page<TransacaoEntity> findByOrigemAndDestino(
-            @Param("chaveOrigem") String chaveOrigem,
-            @Param("chaveDestino") String chaveDestino,
-            Pageable paginacao
-    );
-
-    @Query(
-            "SELECT t FROM TransacaoEntity t " +
-                    "JOIN t.chaves origem ON origem.tipoLigacao = 'ORIGEM' " +
-                    "WHERE origem.chavePix.chave = :chaveOrigem"
-    )
-    Page<TransacaoEntity> findByChaveOrigem(@Param("chaveOrigem") String chaveOrigem, Pageable paginacao);
-
+    @Query("""
+       SELECT t.uuid AS uuidTransacao,
+              origem.chavePix AS chavePixOrigem,
+              destino.chavePix AS chavePixDestino,
+              t.valor AS valor,
+              t.dataHora AS dataHora
+       FROM TransacaoEntity t
+       JOIN t.transacaoChaves origem ON origem.tipoLigacao = 'ORIGEM'
+       JOIN t.transacaoChaves destino ON destino.tipoLigacao = 'DESTINO'
+       WHERE origem.chavePix.chave = :chaveOrigem
+       """)
+    Page<TransacaoChavePixOrigemProjection> findByChaveOrigem(@Param("chaveOrigem") String chaveOrigem, Pageable paginacao);
 }

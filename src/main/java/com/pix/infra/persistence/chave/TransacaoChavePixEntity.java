@@ -1,6 +1,5 @@
-package com.pix.infra.persistence;
+package com.pix.infra.persistence.chave;
 
-import com.pix.infra.persistence.chave.ChavePixEntity;
 import com.pix.infra.persistence.transacao.TransacaoEntity;
 import jakarta.persistence.*;
 

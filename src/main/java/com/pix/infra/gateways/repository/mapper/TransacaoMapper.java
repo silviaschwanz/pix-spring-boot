@@ -3,8 +3,9 @@ package com.pix.infra.gateways.repository.mapper;
 import com.pix.domain.chave.ChavePix;
 import com.pix.domain.transacao.TipoLigacao;
 import com.pix.domain.transacao.Transacao;
-import com.pix.infra.persistence.TransacaoChavePixEntity;
+import com.pix.infra.persistence.chave.TransacaoChavePixEntity;
 import com.pix.infra.persistence.chave.ChavePixEntity;
+import com.pix.infra.persistence.transacao.TransacaoChavePixOrigemProjection;
 import com.pix.infra.persistence.transacao.TransacaoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class TransacaoMapper {
     public Transacao toDomain(TransacaoEntity transacaoEntity) {
         ChavePix chavePixOrigem = null;
         ChavePix chavePixDestino = null;
-        for (TransacaoChavePixEntity transacaoChavePix : transacaoEntity.getChaves()) {
+        for (TransacaoChavePixEntity transacaoChavePix : transacaoEntity.getTransacaoChaves()) {
             if(TipoLigacao.ORIGEM.name().equals(transacaoChavePix.getTipoLigacao())) {
                 chavePixOrigem = chavePixMapper.toDomain(transacaoChavePix.getChavePix());
             }
@@ -32,6 +33,16 @@ public class TransacaoMapper {
                 transacaoEntity.getValor(),
                 chavePixDestino,
                 transacaoEntity.getDataHora()
+        );
+    }
+
+    public Transacao toDomain(TransacaoChavePixOrigemProjection transacaoChavePixOrigem) {
+        return Transacao.restaurar(
+                transacaoChavePixOrigem.getUuidTransacao(),
+                chavePixMapper.toDomain(transacaoChavePixOrigem.getChavePixOrigem()),
+                transacaoChavePixOrigem.getValor(),
+                chavePixMapper.toDomain(transacaoChavePixOrigem.getChavePixDestino()),
+                transacaoChavePixOrigem.getDataHora()
         );
     }
 

@@ -1,5 +1,6 @@
 package com.pix.infra.controller.transacao;
 
+import com.pix.ApiConstantes;
 import com.pix.application.usecases.transacao.ListarTransacoesEnviadasChaveOrigem;
 import com.pix.application.usecases.transacao.RealizarTransacao;
 import jakarta.validation.Valid;
@@ -13,7 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Set;
 
 @RestController
-@RequestMapping("transacoes")
+@RequestMapping(ApiConstantes.BASE_PATH + "/transacoes")
 public class TransacaoController {
 
     @Autowired

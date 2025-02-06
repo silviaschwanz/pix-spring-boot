@@ -7,6 +7,8 @@ import com.pix.domain.chave.tipo.TipoChavePix;
 import com.pix.infra.persistence.chave.ChavePixEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class ChavePixMapper {
 

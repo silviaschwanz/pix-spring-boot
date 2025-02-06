@@ -1,5 +1,6 @@
 package com.pix.infra.controller;
 
+import com.pix.ApiConstantes;
 import com.pix.domain.chave.ChavePix;
 import com.pix.domain.chave.ChavePixFactoryImpl;
 import com.pix.domain.chave.tipo.TipoChavePix;
@@ -37,6 +38,9 @@ class TransacaoControllertIT {
     @Autowired
     ChavePixServiceRepository chavePixServiceRepository;
 
+    String pathResource = ApiConstantes.BASE_PATH + "/transacoes";
+
+
     @BeforeEach
     public void setUp() {
         RestAssured.port = port;
@@ -62,7 +66,7 @@ class TransacaoControllertIT {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("transacoes")
+                .post(pathResource)
                 .then()
                 .statusCode(201)
                 .contentType(ContentType.JSON)
@@ -91,7 +95,7 @@ class TransacaoControllertIT {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("transacoes")
+                .post(pathResource)
                 .then()
                 .statusCode(404)
                 .body("mensagemErro",is("Chave Pix não encontrada: frt@gmail.com"))

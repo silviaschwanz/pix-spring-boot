@@ -1,5 +1,6 @@
 package com.pix.infra.controller.chave;
 
+import com.pix.ApiConstantes;
 import com.pix.application.usecases.chave.CadastrarChavePix;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("chaves")
+@RequestMapping(ApiConstantes.BASE_PATH + "/chaves")
 public class ChavePixController {
 
     @Autowired

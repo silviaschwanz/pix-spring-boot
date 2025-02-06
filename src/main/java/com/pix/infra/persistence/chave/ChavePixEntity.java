@@ -1,6 +1,5 @@
 package com.pix.infra.persistence.chave;
 
-import com.pix.infra.persistence.TransacaoChavePixEntity;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
