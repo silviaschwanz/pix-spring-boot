@@ -67,3 +67,7 @@ http://localhost:8080/swagger-ui.html
 ## Modelagem para refatoração em microsserviços - relação de tópicos
 ![pix_microsservices_topics drawio](https://github.com/user-attachments/assets/f3866d84-3071-4e5b-b3ef-7fb4c0ba49dc)
 
+## Flow Transação Pix
+![pix_flow](https://github.com/user-attachments/assets/6a048ea2-ef93-4230-890d-c4ef6df15ded)
+
+
