@@ -63,3 +63,7 @@ https://miro.com/app/board/uXjVLlYfY-Q=/?moveToWidget=3458764615540821694&cot=14
 
 ## Swagger
 http://localhost:8080/swagger-ui.html
+
+## Modelagem para refatoração em microsserviços - relação de tópicos
+![pix_microsservices_topics drawio](https://github.com/user-attachments/assets/f3866d84-3071-4e5b-b3ef-7fb4c0ba49dc)
+
